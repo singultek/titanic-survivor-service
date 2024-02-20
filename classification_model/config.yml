@@ -1,0 +1,34 @@
+# Package Overview
+package_name: classification_model
+
+pipeline_name: classification_model
+pipeline_save_file: trained_classification_model_v
+
+# Label to predict
+label: survived
+
+# Feature variables
+features:
+  - age
+  - fare
+  - sex
+  - cabin
+  - embarked
+  - title
+
+numerical_variables:
+  - age
+  - fare
+
+categorical_variables:
+  - sex
+  - cabin
+  - embarked
+  - title
+
+cabin:
+  - cabin
+
+# Model parameters
+test_size: 0.1
+random_state: 0
