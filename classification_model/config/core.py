@@ -26,6 +26,7 @@ class LRModelConfig(BaseModel):
     features: List[str]
     numerical_variables: List[str]
     categorical_variables: List[str]
+    dropped_features: List[str]
     cabin: List[str]
     test_size: float
     C: float
@@ -58,7 +59,7 @@ def _read_config_from_path(path):
         return _config
 
 
-def get_config_from_yaml(parsed_config: Union[dict, str] = None) -> Config:
+def init_config(parsed_config: Union[dict, str] = None) -> Config:
     if parsed_config is None:
         if os.path.isfile(CONFIG_FILE_PATH):
             return _read_config_from_path(path=CONFIG_FILE_PATH)
@@ -74,11 +75,11 @@ def get_config_from_yaml(parsed_config: Union[dict, str] = None) -> Config:
 
 
 if __name__ == "__main__":
-    config_from_yaml = get_config_from_yaml()
-    config_from_path = get_config_from_yaml(parsed_config='/Users/sinan/Projects/deploy_ml_titanic/classification_model/config.yml')
+    config_from_yaml = init_config()
+    config_from_path = init_config(parsed_config='/Users/sinan/Projects/deploy_ml_titanic/classification_model/config.yml')
     parsed_config = {'package_name': 'classification_model', 'pipeline_name': 'classification_model',
-                     'pipeline_save_file': 'trained_classification_model_v', 'label': 'survived',
-                     'features': ['age', 'fare', 'sex', 'cabin', 'embarked', 'title'], 'numerical_variables': ['age', 'fare'],
+                     'pipeline_save_file': 'trained_classification_model_v', 'dropped_features': ["name", "ticket", "boat", "body", "homedest"],
+                     'label': 'survived', 'features': ['age', 'fare', 'sex', 'cabin', 'embarked', 'title'], 'numerical_variables': ['age', 'fare'],
                      'categorical_variables': ['sex', 'cabin', 'embarked', 'title'], 'cabin': ['cabin'], 'test_size': 0.1,
                      'C': 0.0005, 'random_state': 0}
-    config_from_dict = get_config_from_yaml(parsed_config=parsed_config)
+    config_from_dict = init_config(parsed_config=parsed_config)

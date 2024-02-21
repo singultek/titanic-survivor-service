@@ -26,6 +26,13 @@ categorical_variables:
   - embarked
   - title
 
+dropped_features:
+  - name
+  - ticket
+  - boat
+  - body
+  - homedest
+
 cabin:
   - cabin
 
