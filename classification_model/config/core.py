@@ -1,5 +1,5 @@
 from pydantic import BaseModel, ValidationError
-from typing import Sequence, Union
+from typing import List, Union
 import os
 import yaml
 
@@ -23,11 +23,12 @@ class LRModelConfig(BaseModel):
     Model configuration
     """
     label: str
-    features: Sequence[str]
-    numerical_variables: Sequence[str]
-    categorical_variables: Sequence[str]
-    cabin: Sequence[str]
+    features: List[str]
+    numerical_variables: List[str]
+    categorical_variables: List[str]
+    cabin: List[str]
     test_size: float
+    C: float
     random_state: int
 
 
@@ -79,5 +80,5 @@ if __name__ == "__main__":
                      'pipeline_save_file': 'trained_classification_model_v', 'label': 'survived',
                      'features': ['age', 'fare', 'sex', 'cabin', 'embarked', 'title'], 'numerical_variables': ['age', 'fare'],
                      'categorical_variables': ['sex', 'cabin', 'embarked', 'title'], 'cabin': ['cabin'], 'test_size': 0.1,
-                     'random_state': 0}
+                     'C': 0.0005, 'random_state': 0}
     config_from_dict = get_config_from_yaml(parsed_config=parsed_config)

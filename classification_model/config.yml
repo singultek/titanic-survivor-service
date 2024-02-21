@@ -31,4 +31,5 @@ cabin:
 
 # Model parameters
 test_size: 0.1
+C: 0.0005
 random_state: 0
