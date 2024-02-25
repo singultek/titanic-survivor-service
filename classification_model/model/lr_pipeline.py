@@ -69,23 +69,25 @@ class LRPipeline:
             if pipeline_name.endswith(".pkl"):
                 pipeline_path = os.path.join(TRAINED_MODEL_DIR, pipeline_name)
             else:
+                pipeline_name = os.path.splitext(pipeline_name)[0]
                 pipeline_path = os.path.join(TRAINED_MODEL_DIR, pipeline_name + ".pkl")
-                print(Warning(f"AAlthough given pipeline name doesn't end with '.pkl', "
-                              f"pipeline will be saved as pickle format."))
+                print(f"Although given pipeline name doesn't end with '.pkl', "
+                      f"pipeline will be saved as pickle format.")
         else:
             pipeline_path = os.path.join(TRAINED_MODEL_DIR, self.config.app_config.pipeline_save_file
                                          + _version + ".pkl")
-            print(f"Using the default trained pipeline name")
+            print(f"Using the default saving location on {pipeline_path}.")
 
         joblib.dump(self.pipeline, pipeline_path)
 
-    def load_pipeline(self, pipeline_name: str):
+    @staticmethod
+    def load_pipeline(pipeline_name: str):
         pipeline_path = os.path.join(TRAINED_MODEL_DIR, pipeline_name)
         if os.path.isfile(pipeline_path):
             loaded_pipeline = joblib.load(pipeline_path)
             return LRPipeline(pipeline=loaded_pipeline)
         else:
-            raise FileNotFoundError(f"Trained pipeline is not found on {pipeline_path}")
+            raise FileNotFoundError(f"Trained pipeline is not found on {pipeline_path}.")
 
     @staticmethod
     def delete_pipeline(pipeline_name: str):
