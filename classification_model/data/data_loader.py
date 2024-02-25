@@ -29,15 +29,15 @@ def get_title(passenger):
 def load_dataset(dataframe: pd.DataFrame = None) -> pd.DataFrame:
     if dataframe is None:
         dataframe = pd.read_csv(TITANIC_DATA)
-    dataframe.rename(columns={"home.dest": "homedest"}, inplace=True)
-    dataframe = dataframe.replace("?", np.nan)
-    #
-    dataframe["fare"] = dataframe["fare"].astype("float")
-    dataframe["age"] = dataframe["age"].astype("float")
-    #
-    dataframe["cabin"] = dataframe["cabin"].apply(get_first_cabin)
-    dataframe["title"] = dataframe["name"].apply(get_title)
-    dataframe.drop(labels=init_config().lr_model_config.dropped_features, axis=1, inplace=True)
+        dataframe.rename(columns={"home.dest": "homedest"}, inplace=True)
+        dataframe = dataframe.replace("?", np.nan)
+        #
+        dataframe["fare"] = dataframe["fare"].astype("float")
+        dataframe["age"] = dataframe["age"].astype("float")
+        #
+        dataframe["cabin"] = dataframe["cabin"].apply(get_first_cabin)
+        dataframe["title"] = dataframe["name"].apply(get_title)
+        dataframe.drop(labels=init_config().lr_model_config.dropped_features, axis=1, inplace=True)
     return dataframe
 
 
