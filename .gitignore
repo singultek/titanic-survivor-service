@@ -8,7 +8,6 @@ bin/
 dist/
 build/
 develop-eggs/
-dist/
 eggs/
 lib/
 lib64/
@@ -22,7 +21,7 @@ var/
 pip-log.txt
 pip-delete-this-directory.txt
 
-.tox/
+.pytest_cache/
 .coverage
 .cache
 nosetests.xml

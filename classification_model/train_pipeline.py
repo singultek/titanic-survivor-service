@@ -7,5 +7,8 @@ def main():
     pipeline.train(is_saved=True)
 
 
+    pipeline.predict()
+
+
 if __name__ == "__main__":
     main()
