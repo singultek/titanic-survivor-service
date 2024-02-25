@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional, Tuple
 from classification_model.data.data_loader import load_dataset
 from pydantic import BaseModel, ValidationError
 import numpy as np

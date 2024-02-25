@@ -1,4 +1,3 @@
-from classification_model.config.core import init_config
 from classification_model.features.extract_letter import ExtractLetterTransformer
 
 
