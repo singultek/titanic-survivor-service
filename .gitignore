@@ -4,10 +4,10 @@ __pycache__/
 .ipynb_checkpoints
 venv/
 
-output/
+model-package/classification_model/output/
 bin/
-dist/
-build/
+model-package/dist/
+model-package/build/
 develop-eggs/
 eggs/
 lib/

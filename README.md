@@ -4,7 +4,8 @@
 ## Fork the project or Copy repo on local
 
 ## Create the Virtual Environment
-- `pip install -r requirements/requirements.txt`
+- `pip install -r model-package/requirements/requirements.txt`
+- `pip install -r titanic-surviver-app/requirements/requirements.txt`
 
 ## Run Pytest
 - Run the tests `pytest tests`
