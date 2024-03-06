@@ -10,7 +10,7 @@ def get_predictions(data: Union[pd.DataFrame, dict], saved_pipeline_name: str):
         pipeline = LRPipeline().load_pipeline(pipeline_name=saved_pipeline_name)
         print(f"Loaded pipeline: \n {pipeline.pipeline}")
         response = pipeline.predict(data=data)
-        return response["predictions"]
+        return response
     except FileNotFoundError:
         raise FileNotFoundError(f"Trained pipeline named as {saved_pipeline_name} is not found "
                                 f"on {os.path.join(TRAINED_MODEL_DIR, saved_pipeline_name)}.")
@@ -28,6 +28,6 @@ if __name__ == "__main__":
                                                         titanic_data[config.lr_model_config.label],
                                                         test_size=config.lr_model_config.test_size,
                                                         random_state=config.lr_model_config.random_state)
-    titanic_predictions = get_predictions(data=X_test, saved_pipeline_name="trained_pipeline.pkl")
+    titanic_predictions = get_predictions(data=X_test, saved_pipeline_name="trained_classification_model_v0.0.1.pkl")
     accuracy = accuracy_score(titanic_predictions, y_test)
     print(f"Accuracy of Titanic Classification Pipeline: {accuracy}")

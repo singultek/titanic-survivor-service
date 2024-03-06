@@ -9,4 +9,4 @@ def training_pipeline(saved_pipeline_name: Union[str, None]):
 
 
 if __name__ == "__main__":
-    training_pipeline(saved_pipeline_name="trained_pipeline.pkl")
+    training_pipeline(saved_pipeline_name=None)

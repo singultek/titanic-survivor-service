@@ -124,6 +124,6 @@ class LRPipeline:
         validated_data, validation_errors = validate_data(input_data=pd.DataFrame(data))
         predictions = None
         if not validation_errors:
-            predictions = self.pipeline.predict(X=validated_data[self.config.lr_model_config.features])
+            predictions = self.pipeline.predict(X=validated_data[self.config.lr_model_config.features]).tolist()
         response = {"predictions": predictions, "version": _version, "errors": validation_errors}
         return response
