@@ -2,7 +2,7 @@
 package_name: classification_model
 
 pipeline_name: classification_model
-pipeline_save_file: trained_classification_model_v
+pipeline_save_file: titanic_survivor_model_v
 
 # Label to predict
 label: survived
