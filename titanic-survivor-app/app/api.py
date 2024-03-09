@@ -1,4 +1,3 @@
-import json
 import logging
 import pandas as pd
 import numpy as np
@@ -39,9 +38,10 @@ async def predict(input_data: schemas.MultipleTitanicDataInputs) -> Any:
     logger.info(f"Making prediction on inputs: {input_data.inputs}")
     results = get_predictions(data=input_df.replace({np.nan: None}), saved_pipeline_name=settings.TRAINED_MODEL_NAME)
 
+    # TODO: Investigate ValidationError handling more
     if results["errors"] is not None:
-        logger.warning(f"Prediction validation error: {results.get('errors')}")
-        raise HTTPException(status_code=400, detail=json.loads(results["errors"]))
+        logger.warning(f"Prediction error: {results.get('errors')}")
+        raise HTTPException(status_code=400, detail=results["errors"])
 
     logger.info(f"Prediction results: {results.get('predictions')}")
 

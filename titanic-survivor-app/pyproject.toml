@@ -1,0 +1,28 @@
+[build-system]
+requires = [
+    "setuptools>=69.0.0",
+    "wheel>=0.42.0"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "integration"]
+addopts = "-v -ra -q"
+log_cli = true
+log_cli_level = "INFO"
+log_format = "%(asctime)s %(levelname)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+minversion = "6.0"
+filterwarnings = "ignore"
+norecursedirs = ["docs", "build"]
+# Specify a custom directory for pytest cache
+cache_dir = ".pytest_cache"
+
+[tool.black]
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+lines_between_sections = 1
+skip = "migrations"

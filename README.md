@@ -8,7 +8,8 @@
 - `pip install -r titanic-surviver-app/requirements/requirements.txt`
 
 ## Run Pytest
-- Run the tests `pytest tests`
+- Run the tests `pytest model-package/tests`
+- Run the tests `pytest titanic-survivor-app/app/tests`
  
 ## Train Pipeline
 - Train the model: `python classification_model/train_pipeline.py`
