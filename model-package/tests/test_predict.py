@@ -1,4 +1,5 @@
 from sklearn.metrics import accuracy_score
+from typing import List
 import numpy as np
 
 
@@ -11,8 +12,8 @@ def test_predict(sample_input_data, titanic_pipeline):
 
     # Then
     predictions = result.get("predictions")
-    assert isinstance(predictions, np.ndarray)
-    assert isinstance(predictions[0], np.int64)
+    assert isinstance(predictions, List)
+    assert isinstance(predictions[0], int)
     assert result.get("errors") is None
     assert len(predictions) == expected_predictions_number
     accuracy = accuracy_score(predictions, sample_input_data["y_test"])

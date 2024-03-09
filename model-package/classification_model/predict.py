@@ -6,14 +6,16 @@ import os.path
 
 
 def get_predictions(data: Union[pd.DataFrame, dict], saved_pipeline_name: str):
+    response = {}
     try:
         pipeline = LRPipeline().load_pipeline(pipeline_name=saved_pipeline_name)
-        print(f"Loaded pipeline: \n {pipeline.pipeline}")
         response = pipeline.predict(data=data)
         return response
     except FileNotFoundError:
-        raise FileNotFoundError(f"Trained pipeline named as {saved_pipeline_name} is not found "
-                                f"on {os.path.join(TRAINED_MODEL_DIR, saved_pipeline_name)}.")
+        response["errors"] = (f"Trained pipeline named as {saved_pipeline_name} is not found "
+                              f"on {os.path.join(TRAINED_MODEL_DIR, saved_pipeline_name)}. "
+                              f"Please be sure that you trained a pipeline before making predictions!")
+        return response
 
 
 if __name__ == "__main__":
