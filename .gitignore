@@ -8,6 +8,7 @@ model-package/classification_model/output/
 bin/
 model-package/dist/
 model-package/build/
+titanic-survivor-app/logs/
 develop-eggs/
 eggs/
 lib/
