@@ -1,4 +1,4 @@
-# Deploy a Package: Titanic Classification Model
+# Deploy a Package: Titanic Survivor App
 
 
 ## Fork the project or Copy repo on local
@@ -20,3 +20,8 @@ Important to note that, a pipeline should be trained and saved before getting pr
 
 ## Create a Package Wheel 
 - `python setup.py bdist_wheel`
+
+## Run the App
+- `cd titanic-survivor-app`
+- `uvicorn app.main:app --host 0.0.0.0 --port 8001`
+- Then visit `http://localhost:8001/`
