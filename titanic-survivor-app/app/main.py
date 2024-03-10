@@ -1,4 +1,4 @@
-import logging
+import logging.config
 
 from typing import Any
 from fastapi import APIRouter, FastAPI, Request
@@ -6,17 +6,25 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 
 from app.api import api_router
-from app.config import settings, setup_app_logging
+from app.config import get_settings
+from app.log_config import app_config
 
 
-logger = logging.getLogger()
+# Initialize the app config
+app_config.log_level = "DEBUG"
+logging.config.dictConfig(app_config.log_config)
+logger = app_config.get_logger()
 
+# Initialize the app settings
+settings = get_settings()
+
+# Initialize the app and router
+logger.info("Initializing the Titanic Survivor App...")
 app = FastAPI(title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json")
-
 root_router = APIRouter()
 
 
-@root_router.get("/")
+@app.get("/")
 def index(request: Request) -> Any:
     """Index HTML response."""
     body = (
@@ -33,7 +41,9 @@ def index(request: Request) -> Any:
     return HTMLResponse(content=body)
 
 
+logger.debug("Initializing api_router...")
 app.include_router(api_router, prefix=settings.API_V1_STR)
+logger.debug("Initializing root_router...")
 app.include_router(root_router)
 
 # Set all CORS enabled origins
@@ -52,4 +62,4 @@ if __name__ == "__main__":
     logger.warning("Running in development mode. Do not run like this in production.")
     import uvicorn
 
-    uvicorn.run(app, host="localhost", port=8001, log_level="debug")
+    uvicorn.run(app, host="localhost", port=8001)

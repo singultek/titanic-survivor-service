@@ -1,4 +1,3 @@
-import logging
 import pandas as pd
 import numpy as np
 
@@ -8,10 +7,12 @@ from fastapi.encoders import jsonable_encoder
 from classification_model.predict import get_predictions
 
 from app import schemas, model_version, api_version
-from app.config import settings
+from app.config import Settings
+from app.log_config import app_config
 
 
-logger = logging.getLogger()
+logger = app_config.get_logger()
+settings = Settings()
 api_router = APIRouter()
 
 
@@ -20,6 +21,7 @@ def health() -> dict:
     """
     Health Check of the API
     """
+    logger.info("Health Check.")
     health_check = schemas.Health(
         name=settings.PROJECT_NAME, api_version=api_version, model=model_version
     )
@@ -32,7 +34,7 @@ async def predict(input_data: schemas.MultipleTitanicDataInputs) -> Any:
     """
     Make survivor predictions from titanic crash with the titanic-classification-model
     """
-
+    logger.info(f"Getting the input data...")
     input_df = pd.DataFrame(jsonable_encoder(input_data.inputs))
 
     logger.info(f"Making prediction on inputs: {input_data.inputs}")
@@ -43,6 +45,6 @@ async def predict(input_data: schemas.MultipleTitanicDataInputs) -> Any:
         logger.warning(f"Prediction error: {results.get('errors')}")
         raise HTTPException(status_code=400, detail=results["errors"])
 
-    logger.info(f"Prediction results: {results.get('predictions')}")
+    logger.info(f"Prediction is finished: {results.get('predictions')}")
 
     return results
