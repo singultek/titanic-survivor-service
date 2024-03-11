@@ -1,12 +1,21 @@
 import logging
 
 from typing import Union
+from app import ENVIRONMENT
 
 
 class AppConfig:
     def __init__(self, name: str = "Titanic Survivor App", log_level: Union[int, str] = 20):
         self._name = name
-        self._log_level = log_level
+
+        if log_level == "dev" or log_level == "DEV":
+            self._log_level = "DEBUG"
+        elif log_level == "prod" or log_level == "PROD":
+            self._log_level = "INFO"
+        else:
+            raise ValueError(f"Provided environment '{ENVIRONMENT}' is not supported. Please select the environment "
+                             f"from ['dev', 'prod', 'DEV', 'PROD']")
+
         self._log_config = self._init_logger()
 
     @property
@@ -104,4 +113,4 @@ class AppConfig:
         return logging.getLogger(self._name)
 
 
-app_config = AppConfig()
+app_config = AppConfig(log_level=ENVIRONMENT)

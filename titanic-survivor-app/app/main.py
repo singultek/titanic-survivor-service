@@ -11,7 +11,6 @@ from app.log_config import app_config
 
 
 # Initialize the app config
-app_config.log_level = "DEBUG"
 logging.config.dictConfig(app_config.log_config)
 logger = app_config.get_logger()
 
