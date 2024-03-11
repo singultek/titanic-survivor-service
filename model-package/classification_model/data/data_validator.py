@@ -57,6 +57,7 @@ class TitanicDataInputSchema(BaseModel):
             if self.title not in ["Mrs", "Miss"]:
                 raise ValueError("Given sex and title input do not match!")
             return self
+        return self
 
 
 class MultipleTitanicDataInputs(BaseModel):
