@@ -2,7 +2,6 @@ uvicorn==0.27.1
 fastapi==0.110.0
 python-multipart==0.0.9
 pydantic==2.6.1
-./model-package/dist/titanic_classification_model-1.0.0-py3-none-any.whl
 feature_engine==1.6.2
 pytest==8.0.2
 requests==2.31.0
