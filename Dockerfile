@@ -3,7 +3,7 @@ FROM python:3.11.1
 # Create the user that will run the app
 RUN adduser --disabled-password --gecos '' ml-titanic-user
 
-WORKDIR /code
+WORKDIR /code/titanic-survivor-app
 
 # Copy our titanic survivor app from the current folder to /code inside the container
 ADD ./titanic-survivor-app /code/titanic-survivor-app/
@@ -22,4 +22,5 @@ USER ml-titanic-user
 # Make port 8001 available for links and/or publish
 EXPOSE 8001
 
-CMD ["bash", "/code/titanic-survivor-app/run.sh"]
+CMD ["bash", "./run.sh"]
+#CMD ["uvicorn", "app.main:app", "--host=0.0.0.0" , "--reload" , "--port", "8001"]
