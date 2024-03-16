@@ -6,6 +6,7 @@
 ## Create the Virtual Environment
 - `pip install -r model-package/requirements/requirements.txt`
 - `pip install -r titanic-surviver-app/requirements/requirements.txt`
+- `pip install -r titanic-surviver-app/requirements/titanic_classification_model-1.0.0-py3-none-any.whl`
 
 ## Run PyTests
 - Run the tests `pytest model-package/tests`
@@ -34,4 +35,11 @@ the steps above can be followed:
 - `cd titanic-survivor-app`
 - `uvicorn app.main:app --host 0.0.0.0 --port 8001`
 - Then visit `http://localhost:8001/`
+
+## Containerazi with Docker
+- `docker build -t deploy_ml_titanic:1.0.0 .`
+- `docker run -it -p 8001:8001/tcp --name deploy_ml_titanic_container deploy_ml_titanic:1.0.0`
+- Then visit `http://localhost:8001/`
+
+
 
