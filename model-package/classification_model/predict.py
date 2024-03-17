@@ -1,5 +1,6 @@
 from classification_model.model.lr_pipeline import LRPipeline
 from classification_model.config.core import TRAINED_MODEL_DIR
+from classification_model import __version__ as _version
 from typing import Union
 import pandas as pd
 import os.path
@@ -30,6 +31,7 @@ if __name__ == "__main__":
                                                         titanic_data[config.lr_model_config.label],
                                                         test_size=config.lr_model_config.test_size,
                                                         random_state=config.lr_model_config.random_state)
-    titanic_predictions = get_predictions(data=X_test, saved_pipeline_name="trained_classification_model_v0.0.1.pkl")
-    accuracy = accuracy_score(titanic_predictions, y_test)
+    titanic_predictions = get_predictions(data=X_test,
+                                          saved_pipeline_name=f"{config.app_config.pipeline_save_file}{_version}.pkl")
+    accuracy = accuracy_score(titanic_predictions["predictions"], y_test)
     print(f"Accuracy of Titanic Classification Pipeline: {accuracy}")

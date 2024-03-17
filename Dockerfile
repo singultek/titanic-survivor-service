@@ -11,7 +11,7 @@ ADD ./titanic-survivor-app /code/titanic-survivor-app/
 # Install our requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r /code/titanic-survivor-app/requirements/requirements.txt
-RUN pip install /code/titanic-survivor-app/requirements/titanic_classification_model-1.0.0-py3-none-any.whl
+RUN pip install /code/titanic-survivor-app/requirements/titanic_classification_model-1.1.0-py3-none-any.whl
 
 
 RUN chmod +x /code/titanic-survivor-app/run.sh
