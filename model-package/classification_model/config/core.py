@@ -76,7 +76,7 @@ def init_config(parsed_config: Union[dict, str] = None) -> Config:
 
 if __name__ == "__main__":
     config_from_yaml = init_config()
-    config_from_path = init_config(parsed_config='/Users/sinan/Projects/deploy_ml_titanic/classification_model/config.yml')
+    config_from_path = init_config(parsed_config='/Users/sinan/Projects/titanic-survivor-service/classification_model/config.yml')
     dict_config = {'package_name': 'classification_model', 'pipeline_name': 'classification_model',
                    'pipeline_save_file': 'trained_classification_model_v', 'dropped_features': ["name", "ticket", "boat", "body", "homedest"],
                    'label': 'survived', 'features': ['age', 'fare', 'sex', 'cabin', 'embarked', 'title'], 'numerical_variables': ['age', 'fare'],
