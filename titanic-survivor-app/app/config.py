@@ -22,7 +22,7 @@ class Settings(BaseSettings):
         "https://localhost:8000",  # type: ignore
     ]
 
-    PROJECT_NAME: str = "Titanic Survivor API"
+    PROJECT_NAME: str = "Titanic Survivor Service"
     TRAINED_MODEL_NAME: str = model_version + ".pkl"
 
     class Config:

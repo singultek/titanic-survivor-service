@@ -18,7 +18,7 @@ logger = app_config.get_logger()
 settings = get_settings()
 
 # Initialize the app and router
-logger.info("Initializing the Titanic Survivor App...")
+logger.info(f"Initializing the {settings.PROJECT_NAME}...")
 app = FastAPI(title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json")
 root_router = APIRouter()
 
