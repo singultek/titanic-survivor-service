@@ -12,6 +12,7 @@ bin/
 model-package/dist/
 model-package/build/
 titanic-survivor-app/logs/
+DockerfileDev
 jupyter_notebooks*
 develop-eggs/
 eggs/
