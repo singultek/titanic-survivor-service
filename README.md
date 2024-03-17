@@ -1,4 +1,4 @@
-# Deploy a Package: Titanic Survivor App
+# Titanic Survivor Service
 
 
 ## Fork the project or Copy repo on local
@@ -36,9 +36,9 @@ the steps above can be followed:
 - `uvicorn app.main:app --host 0.0.0.0 --port 8001`
 - Then visit `http://localhost:8001/`
 
-## Containerazi with Docker
-- `docker build -t deploy_ml_titanic:1.0.0 .`
-- `docker run -it -p 8001:8001/tcp --name deploy_ml_titanic_container deploy_ml_titanic:1.0.0`
+## Containerize with Docker
+- `docker build -t titanic-survivor-service:1.0.0 .`
+- `docker run -it -p 8001:8001/tcp --name container-titanic-survivor-service titanic-survivor-service:1.0.0`
 - Then visit `http://localhost:8001/`
 
 
