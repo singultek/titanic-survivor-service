@@ -7,8 +7,6 @@ include classification_model/output/model/*.pkl
 include classification_model/VERSION
 include classification_model/config.yml
 
-include ./requirements/requirements.txt
-include ./requirements/test_requirements.txt
 exclude *.log
 exclude *.cfg
 
