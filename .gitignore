@@ -13,6 +13,7 @@ docs/
 model-package/dist/
 model-package/build/
 titanic-survivor-app/logs/
+postman/
 DockerfileDev
 jupyter_notebooks*
 develop-eggs/
