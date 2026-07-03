@@ -9,6 +9,7 @@ __pycache__/
 
 model-package/classification_model/output/
 bin/
+docs/
 model-package/dist/
 model-package/build/
 titanic-survivor-app/logs/
