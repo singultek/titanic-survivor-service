@@ -16,6 +16,12 @@ COPY titanic-survivor-app/ titanic-survivor-app/
 # model-package/) is copied into the final stage below
 RUN uv sync --frozen --no-dev --no-editable --package titanic-survivor-app
 
+# Train the pipeline and save it into the installed classification_model package
+# (under .venv/.../classification_model/output/model/), since the trained .pkl is
+# gitignored/dockerignored as a build artifact and is never copied in from the host.
+ENV PATH="/code/.venv/bin:$PATH"
+RUN python -m classification_model.train_pipeline
+
 FROM python:3.11.1
 
 # Create the user that will run the app
