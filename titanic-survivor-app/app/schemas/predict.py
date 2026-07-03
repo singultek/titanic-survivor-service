@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Any, List
 from classification_model.data.data_validator import TitanicDataInputSchema
 
@@ -10,7 +10,7 @@ class PredictionResponse(BaseModel):
 
 
 class MultipleTitanicDataInputs(BaseModel):
-    inputs: List[TitanicDataInputSchema]
+    inputs: List[TitanicDataInputSchema] = Field(min_length=1)
 
     model_config = {
         "json_schema_extra": {
