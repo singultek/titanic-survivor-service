@@ -1,21 +1,37 @@
+FROM python:3.11.1 AS builder
+
+COPY --from=ghcr.io/astral-sh/uv:0.11.8 /uv /uvx /bin/
+
+WORKDIR /code
+
+# Copy workspace manifests and lockfile first for better layer caching
+COPY pyproject.toml uv.lock .python-version ./
+COPY model-package/ model-package/
+COPY titanic-survivor-app/ titanic-survivor-app/
+
+# --frozen fails the build if uv.lock is out of sync with pyproject.toml
+# --no-dev excludes pytest and other dev-only tools from the runtime image
+# --no-editable installs the workspace-local model package as a self-contained
+# package rather than a path reference, since only titanic-survivor-app/ (not
+# model-package/) is copied into the final stage below
+RUN uv sync --frozen --no-dev --no-editable --package titanic-survivor-app
+
 FROM python:3.11.1
 
 # Create the user that will run the app
 RUN adduser --disabled-password --gecos '' ml-titanic-user
 
+WORKDIR /code
+
+COPY --from=builder /code/.venv /code/.venv
+COPY --from=builder /code/titanic-survivor-app /code/titanic-survivor-app
+
+ENV PATH="/code/.venv/bin:$PATH"
+
 WORKDIR /code/titanic-survivor-app
 
-# Copy our titanic survivor app from the current folder to /code inside the container
-ADD ./titanic-survivor-app /code/titanic-survivor-app/
-
-# Install our requirements.txt
-RUN pip install --upgrade pip
-RUN pip install -r /code/titanic-survivor-app/requirements/requirements.txt
-RUN pip install /code/titanic-survivor-app/requirements/titanic_classification_model-1.1.0-py3-none-any.whl
-
-
-RUN chmod +x /code/titanic-survivor-app/run.sh
-RUN chown -R ml-titanic-user:ml-titanic-user ./
+RUN chmod +x run.sh
+RUN chown -R ml-titanic-user:ml-titanic-user /code
 
 USER ml-titanic-user
 
@@ -23,4 +39,3 @@ USER ml-titanic-user
 EXPOSE 8001
 
 CMD ["bash", "./run.sh"]
-#CMD ["uvicorn", "app.main:app", "--host=0.0.0.0" , "--reload" , "--port", "8001"]
