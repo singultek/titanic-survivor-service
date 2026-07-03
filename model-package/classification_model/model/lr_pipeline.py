@@ -78,6 +78,7 @@ class LRPipeline:
                                          + _version + ".pkl")
             print(f"Using the default saving location on {pipeline_path}.")
 
+        os.makedirs(TRAINED_MODEL_DIR, exist_ok=True)
         joblib.dump(self.pipeline, pipeline_path)
 
     @staticmethod

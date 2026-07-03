@@ -42,64 +42,44 @@ or modifying it, you can simply clone the repository to your local machine using
 following command:
   - `git clone https://github.com/singultek/titanic-survivor-service.git`
 
-### Create the Virtual Environment
-Before running the project, it's advisable to set up a virtual environment to isolate 
-its dependencies from other projects on your system. Follow these steps to create and
-activate a virtual environment:
+### Set Up the Environment with uv
+This project uses [uv](https://docs.astral.sh/uv/) to manage the Python version and
+dependencies for both `model-package` and `titanic-survivor-app` together, as a single
+workspace.
 
-1. Navigate to the Project Directory: Open your terminal or command prompt and change 
-your current directory to the project directory where you cloned or copied the repository.
+1. Install uv (see the [official install guide](https://docs.astral.sh/uv/getting-started/installation/)):
 
-`cd titanic-survivor-service
-`
+`curl -LsSf https://astral.sh/uv/install.sh | sh`
 
-2. Create the Virtual Environment: Use the _python -m venv_ command to create a virtual 
-environment. This command creates a folder containing all the necessary Python 
-executables and libraries for the environment. 
+2. From the repository root, sync the workspace. This reads `.python-version`,
+installs Python 3.11.1 automatically if it isn't already available, creates a `.venv`,
+and installs both packages plus their exact locked dependency versions from `uv.lock`:
 
-`python -m venv venv
-`
+`uv sync`
 
-3. Activate the Virtual Environment:
-   * On Windows:
-   `venv\Scripts\activate`
-   * On macOS and Linux:
-   `source venv/bin/activate`
-   
-### Install Dependencies
-Once the virtual environment is activated, you need to install the project 
-dependencies using pip. This ensures that all the required libraries are available
-within the virtual environment and don't conflict with other projects.
+3. (Optional) Activate the environment directly if you want plain `python`/`pytest`
+commands to work without prefixing them with `uv run`:
+   * On Windows: `.venv\Scripts\activate`
+   * On macOS and Linux: `source .venv/bin/activate`
 
-1. Install Model Package Requirements: Navigate to the model-package/ directory and 
-install the required dependencies listed in the requirements.txt file.
-- `pip install -r model-package/requirements/requirements.txt`
-2. Install Titanic Survivor App Requirements: 
-- `pip install -r titanic-survivor-app/requirements/requirements.txt`
-3. Install the Model Package Wheel: Additionally, install the model package wheel. This wheel 
-contains the necessary components for the machine learning model used by the application. 
-Please be aware of the model version, and in case of any modifications on the Model Package
-wheel, update the file name and reinstall the updated package. Please visit 
-[Create a Model Package Wheel](#create-a-model-package-wheel-) section to get detailed 
-instructions about updating the model package, and it's wheel file.
-- `pip install titanic-survivor-app/requirements/titanic_classification_model-1.1.0-py3-none-any.whl`
-
-Once you have completed these steps, the environment setup is complete, and you can proceed
+Once `uv sync` has completed, the environment setup is complete, and you can proceed
 to run tests, use the service, or make modifications to the project as needed.
 
-### Create a Model Package Wheel 
-If one wants to change some parts of the project and use modified model package, 
-the steps below can be followed: 
-- `cd model-package`
-- Change the version on [VERSION](model-package/classification_model/VERSION) file 
-- Create new distribution wheel with `python setup.py bdist_wheel`
-- Replace the newly built wheel from `model-package/dist/titanic_classification_model-${YOUR_VERSION}-py3-none-any.whl`
-to `titanic-survivor-app/requirements/titanic_classification_model-1.1.0-py3-none-any.whl`
-- Go back to root directory with `cd ..`
-- To avoid getting wheel from cache(This step can be skipped if it is certain that there isn't cached wheel for the 
-- new version of package), uninstall the package with `pip uninstall titanic-classification-model`
-- Install the new model package from the created wheel file 
-with `pip install titanic-survivor-app/requirements/titanic_classification_model-${YOUR_VERSION}-py3-none-any.whl`
+### Updating the Model Package
+Because `model-package` and `titanic-survivor-app` are members of the same uv
+workspace, `titanic-survivor-app` always depends on the local, in-repo version of
+`model-package` — there's no wheel to manually build or copy for local development.
+
+If one wants to change the model package and use the modified version:
+- Make your changes under `model-package/`
+- Bump the version in [VERSION](model-package/classification_model/VERSION)
+- From the repo root, run `uv sync` again to pick up the change
+
+If you need to produce a standalone wheel for distribution outside this workspace
+(e.g. publishing to an internal package index), run:
+`uv build --package model-package`
+
+The wheel will be written to `model-package/dist/`.
 
 
 ## How to Run Tests
@@ -109,9 +89,9 @@ reliability and correctness. In this project, tests are organized into different
 directories corresponding to different components of the application.
 
 1. Model Package Tests
-- `pytest model-package/tests`
+- `uv run pytest model-package/tests`
 2. Titanic Survivor App Tests
-- `pytest titanic-survivor-app/app/tests`
+- `uv run pytest titanic-survivor-app/app/tests`
 
 Running these tests will execute the test cases defined in the respective directories,
 ensuring that the model package and the application components work as expected. 
@@ -151,10 +131,13 @@ To interact with the service via its API endpoints, follow these steps to run th
 1. Navigate to the Titanic Survivor App Directory: 
 - `cd titanic-survivor-app`
 2. Run the  FastAPI application using the uvicorn command:
-- `uvicorn app.main:app --host 0.0.0.0 --port 8001`  OR
+- `uv run uvicorn app.main:app --host 0.0.0.0 --port 8001`  OR
 3. Directly run the app with prepared script:
-- `sh ./run.sh`
+- `uv run bash ./run.sh`
 - Then visit `http://localhost:8001/`
+
+(If you activated the `.venv` per the setup step above, the plain `uvicorn ...` /
+`sh ./run.sh` commands work too, without the `uv run` prefix.)
 
 ### Containerize with Docker
 If you prefer to containerize the service for easy deployment, you can follow 

@@ -31,3 +31,17 @@ def test_predict(client: TestClient, sample_input_data: dict, titanic_pipeline: 
     assert len(prediction_response["predictions"]) == expected_predictions_number
     accuracy = accuracy_score(prediction_response["predictions"], sample_input_data["y_test"])
     assert accuracy > 0.7
+
+
+def test_predict_rejects_empty_inputs(client: TestClient):
+    # Given
+    payload = {"inputs": []}
+
+    # When
+    response = client.post(
+        "http://localhost:8001/api/v1/predict",
+        json=payload,
+    )
+
+    # Then
+    assert response.status_code == 422
